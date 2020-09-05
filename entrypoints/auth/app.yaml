@@ -1,1 +1,2 @@
+service: auth
 runtime: go112
