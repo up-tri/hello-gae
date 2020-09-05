@@ -10,6 +10,7 @@ import (
 
 func main() {
 	e := echo.New()
+	e.HideBanner = true
 	e.GET("/", indexHandler)
 	// e.HTTPErrorHandler = httpErrorHandler
 
@@ -18,7 +19,11 @@ func main() {
 		port = "8080"
 		log.Printf("Defaulting to port %s", port)
 	}
-	e.Logger.Fatal(e.Start(":" + port))
+	if err := e.Start(":" + port); err != nil {
+		e.Logger.Fatal(err)
+	} else {
+		e.Logger.Info("Listening on port %s", port)
+	}
 }
 
 func indexHandler(c echo.Context) error {
