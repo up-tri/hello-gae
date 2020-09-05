@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/labstack/echo/v4"
 )
@@ -9,10 +11,14 @@ import (
 func main() {
 	e := echo.New()
 	e.GET("/", indexHandler)
-
 	// e.HTTPErrorHandler = httpErrorHandler
 
-	e.Logger.Fatal(e.Start(":1323"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		log.Printf("Defaulting to port %s", port)
+	}
+	e.Logger.Fatal(e.Start(":" + port))
 }
 
 func indexHandler(c echo.Context) error {
